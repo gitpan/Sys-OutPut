@@ -2,7 +2,7 @@
 #
 # Little Output Utility
 #
-# $Id: OutPut.pm,v 1.2 1996/08/13 07:01:16 stebbens Exp $
+# $Id: OutPut.pm,v 1.2 1998/01/19 03:56:49 aks Exp $
 # $Source: /usr/cvsroot/perl/Sys-OutPut/OutPut.pm,v $
 #
 # I don't like to do "print STDERR" or "print STDOUT", so these
@@ -15,8 +15,8 @@ use Exporter;
 @ISA    = qw( Exporter );
 @EXPORT = qw( talk out put err debug );
 
-$quiet = $::quiet unless $quiet;  # default to the global values
-$debug = $::debug unless $debug; 
+$quiet = defined($::quiet) ? $::quiet : '' unless defined($quiet);
+$debug = defined($::debug) ? $::debug : '' unless defined($debug); 
 
 sub talk {
     &err(@_) unless $quiet;
@@ -26,23 +26,23 @@ sub talk {
 # out $FORMAT, $ARGS, ...
 
 sub out {
-    my($fmt) = shift;
-    my(@args) = @_;
+    my $fmt = shift;
+    $fmt = '' unless defined $fmt;	# avoid undef refs
+    my @args = @_;
     $fmt .= "\n" if $fmt eq '' || substr($fmt,-1) ne "\n";
     printf STDOUT $fmt,@args;
     undef;
 }
 
 sub put {
-    my($fmt) = shift;
-    my(@args) = @_;
-    printf STDOUT $fmt,@args;
+    printf STDOUT @_;
     undef;
 }
 
 sub err {
-    my($fmt) = shift;
-    my(@args) = @_;
+    my $fmt = shift;
+    $fmt = '' unless defined $fmt;	# avoid undef refs
+    my @args = @_;
     $fmt .= "\n" if $fmt eq '' || substr($fmt,-1) ne "\n";
     printf STDERR $fmt,@args;
     undef;
@@ -60,9 +60,11 @@ __END__
 
 =head1 NAME
 
-OutPut.pm -- Perl module to help make output easier.
+Sys::OutPut -- Perl module to help make output easier.
 
-=head1 USAGE
+=head1 SYNOPSIS
+
+  usage Sys::OutPut;
 
   talk $fmtstr [, @args];
 
@@ -118,7 +120,7 @@ respectively, unless they are already defined.
 
 =head1 AUTHOR
 
-Alan K. Stebbens <stebbens@sgi.com>
+Alan K. Stebbens <aks@sgi.com>
 
 =head1 BUGS
 

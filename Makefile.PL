@@ -22,6 +22,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
 	'NAME'		=> 'Sys::OutPut',
-	'VERSION'	=> '2.0',
+	'VERSION'	=> '2.1',
 	'clean'		=> { FILES => 'test.out' },
+	'dist'  => { COMPRESS => 'gzip', SUFFIX => '.gz' },
     );

@@ -16,7 +16,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# $Id: test.pl,v 1.2 1996/08/13 07:01:17 stebbens Exp $
+# $Id: test.pl,v 1.2 1998/01/19 03:57:36 aks Exp $
 
 use Sys::OutPut;
 
@@ -57,9 +57,9 @@ if (! -f $testref) {			# any existing reference?
 system("diff $testref $testout >$testdiff");
 
 if ($?>>8) {
-    print "There are differences; see \"$testdiff\".\n";
+    print "Uh-oh! There are differences; see \"$testdiff\".\n";
 } else {
-    print "No differences.\n";
+    print "Yea! No differences.\n";
     unlink $testdiff;
 }
 
