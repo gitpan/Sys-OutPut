@@ -16,45 +16,92 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# $Id: test.pl,v 1.1 1996/03/01 02:48:08 aks Exp $
+# $Id: test.pl,v 1.2 1996/08/13 07:01:17 stebbens Exp $
 
 use Sys::OutPut;
 
-out "(out) This is a test -- there should be a newline on this text.";
+$testout  = 'test.out';		# where this output goes
+$testref  = "$testout.ref";
+$testdiff = "$testout.diff";
 
-put "(put) This is another test -- ";
+unlink $testout;
 
-put "(put) this line should continue the previous.";
+open(savSTDOUT, ">&STDOUT");
+open(savSTDERR, ">&STDERR");
 
-out;	# force a newline
+open(STDOUT,">test.stdout"); open(STDERR,">test.stderr");
+select(STDOUT);
 
-out "(out)This should start and end a new line";
+&the_test;			# run the test
 
-err "(err)Output should go to stderr";
+close STDOUT; close STDERR;
 
-out "(out)This line should go to stdout";
+# Copy stdout & stderr to the test.out file
+open(TESTOUT,">$testout");
+select(TESTOUT);
+print "*** STDOUT ***\n";
+open(OUT,"<test.stdout"); while (<OUT>) { print; } close OUT;
+print "*** STDERR ***\n";
+open(ERR,"<test.stderr"); while (<ERR>) { print; } close ERR;
+close TESTOUT;
+unlink ('test.stdout', 'test.stderr');
 
-err "(err)This line is back in stderr";
+open(STDOUT, ">&savSTDOUT");
+open(STDERR, ">&savSTDERR");
+select(STDOUT); $|=1;
 
-talk "(talk)This line should print in stderr";
+if (! -f $testref) {			# any existing reference?
+    system("cp $testout $testref");	# no, copy
+}
 
-$Sys::OutPut::quiet = 1;
+system("diff $testref $testout >$testdiff");
 
-talk "(talk)This line should not print!";
-
-$Sys::OutPut::quiet = '';
-
-talk "(talk)This line should appear";
-
-(debug "(debug)This should not print") or
-    talk  "(talk)But this should print when debug returns nil";
-
-$Sys::OutPut::debug = 1;
-
-(debug "(debug)This is a line of debugging output") and
-    err "(err)This line should be in stderr with it.";
-
-(debug "(debug)This is another line of debugging output") or
-    err "(err)This line should not appear!";
+if ($?>>8) {
+    print "There are differences; see \"$testdiff\".\n";
+} else {
+    print "No differences.\n";
+    unlink $testdiff;
+}
 
 exit;
+
+sub the_test {
+
+    out "(out) This is a test -- there should be a newline on this text.";
+
+    put "(put) This is another test -- ";
+
+    put "(put) this line should continue the previous.";
+
+    out;	# force a newline
+
+    out "(out)This should start and end a new line";
+
+    err "(err)Output should go to stderr";
+
+    out "(out)This line should go to stdout";
+
+    err "(err)This line is back in stderr";
+
+    talk "(talk)This line should print in stderr";
+
+    $Sys::OutPut::quiet = 1;
+
+    talk "(talk)This line should not print!";
+
+    $Sys::OutPut::quiet = '';
+
+    talk "(talk)This line should appear";
+
+    (debug "(debug)This should not print") or
+	talk  "(talk)But this should print when debug returns nil";
+
+    $Sys::OutPut::debug = 1;
+
+    (debug "(debug)This is a line of debugging output") and
+	err "(err)This line should be in stderr with it.";
+
+    (debug "(debug)This is another line of debugging output") or
+	err "(err)This line should not appear!";
+
+}

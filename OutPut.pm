@@ -2,8 +2,8 @@
 #
 # Little Output Utility
 #
-# $Id: OutPut.pm,v 1.5 1996/03/01 02:47:45 aks Exp $
-# $Source: /fs/eci1c/home/staff/aks/src/lib/perl/Sys-OutPut/RCS/OutPut.pm,v $
+# $Id: OutPut.pm,v 1.2 1996/08/13 07:01:16 stebbens Exp $
+# $Source: /usr/cvsroot/perl/Sys-OutPut/OutPut.pm,v $
 #
 # I don't like to do "print STDERR" or "print STDOUT", so these
 # little routines do it for me.  And, they take care of ensuring
@@ -118,7 +118,7 @@ respectively, unless they are already defined.
 
 =head1 AUTHOR
 
-Alan K. Stebbens <aks@hub.ucsb.edu>
+Alan K. Stebbens <stebbens@sgi.com>
 
 =head1 BUGS
 

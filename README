@@ -21,19 +21,12 @@ For detailed usage information, you can do:
 
     pod2man Sys::OutPut.pm | nroff -man 
 
-The module is accompanied with a Makefile, this README, a test program
-(test.pl), a reference test output file, and the GNU License, under
-which this software is freely available.
+The module is accompanied with a Makefile.PL, this README, a test
+program (test.pl), a reference test output file, and the GNU License,
+under which this software is freely available.
 
-The archives are available on:
-
-    ftp://hub.ucsb.edu/pub/prog/perl/Sys-OutPut-$VER.shar
-    ftp://hub.ucsb.edu/pub/prog/perl/Sys-OutPut-$VER.tar.gz
-
-where $VER is the latest version.
+The archives are available at your nearest CPAN site.
 
 Contributions or improvements are welcome.
-_______________________________________
-Alan K. Stebbens <aks@hub.ucsb.edu>
-College of Engineering
-University of California, Santa Barbara
+_____________________________________________________________________
+Alan Stebbens <stebbens@sgi.com>      http://reality.sgi.com/stebbens

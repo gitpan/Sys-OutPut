@@ -1,3 +1,4 @@
+# Makefile for Sys::Output
 #
 #    Copyright (C) 1996  Alan K. Stebbens <stebbens@sgi.com>
 #
@@ -15,3 +16,12 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
+
+require 5.002;
+use ExtUtils::MakeMaker;
+
+WriteMakefile(
+	'NAME'		=> 'Sys::OutPut',
+	'VERSION'	=> '2.0',
+	'clean'		=> { FILES => 'test.out' },
+    );
